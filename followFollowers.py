@@ -26,7 +26,7 @@ MY_USER = raw_input("Input Username:")
 MY_PASSWORD = getpass("Input Password:")
 target_user = raw_input("Input Target Username:")
 
-number_to_follow = 50
+number_to_follow = 50 #Number of target's followers you want to follow
 
 def logIn():
 
