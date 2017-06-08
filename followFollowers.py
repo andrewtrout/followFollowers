@@ -26,7 +26,7 @@ MY_USER = raw_input("Input Username:")
 MY_PASSWORD = getpass("Input Password:")
 target_user = raw_input("Input Target Username:")
 
-number_to_follow = 100
+number_to_follow = 50
 
 def logIn():
 
@@ -35,6 +35,7 @@ def logIn():
 	time.sleep(3)
 
 	email = browser.find_element_by_css_selector('input[placeholder="Username"]')
+
 	email.send_keys(MY_USER)
 	pw = browser.find_element_by_css_selector('input[placeholder="Password"]')
 	pw.send_keys(MY_PASSWORD, Keys.RETURN)
@@ -45,23 +46,20 @@ def logIn():
 
 	print "logged in successfully!"
 
-def sort():
+def follow():
 
 	followers = []
-	following = []
 
 	browser.get('https://www.instagram.com/%s/' % target_user)
 	time.sleep(3)
 	browser.find_element_by_xpath('//*[@id="react-root"]/section/main/article/header/div[2]/ul/li[2]/a').click()
-
-	print "Sorting Please Wait..."
 	time.sleep(3)
+
+	print "Fetching %s's followers ----------------------------------------------------->" % target_user
+
 	counter = 1
 
-
-	print "Fetching followers ----------------------------------------------------->"
-
-	while True:
+	while (counter <= number_to_follow):
 		try:
 			follower = browser.find_element_by_xpath('/html/body/div[2]/div/div[2]/div/div[2]/ul/li[%s]/div/div[1]/div/div[1]/a' % counter).text
 			followers.append(follower)
@@ -74,26 +72,28 @@ def sort():
 			break		
 
 
-	print "Fetching following ----------------------------------------------------->"
-
-	browser.get('https://www.instagram.com/%s/' % MY_USER)
-	time.sleep(3)
-	browser.find_element_by_xpath('//*[@id="react-root"]/section/main/article/header/div[2]/ul/li[3]/a').click()
-	time.sleep(3)
-	counter = 1
 
 	while True:
-		try:
-			followed = browser.find_element_by_xpath('/html/body/div[2]/div/div[2]/div/div[2]/ul/li[%s]/div/div[1]/div/div[1]/a' % counter).text
-			following.append(followed)
-			browser.execute_script("document.querySelector('div._4gt3b').scrollTop += 300;")
-			counter+=1
-			print followed
-		except:
-			
+
+		follow = raw_input("Would you like to follow these losers Y/N?").upper()
+
+		if follow == "Y":
+			print "Following!"
+			for i in followers:
+				browser.get('https://www.instagram.com/%s/' % i)
+				time.sleep(5)
+				button = browser.find_element_by_xpath("//*[contains(text(), 'Follow')]")
+				button.click()
+				print "Followed %s!" % i
+				time.sleep(5)
 			break
+		elif follow == "N":
+			print "Did not follow anyone"
+			break
+		
+		print "Not a valid input!"
 	
 
 
 logIn()
-sort()
+follow()
