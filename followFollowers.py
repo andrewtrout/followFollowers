@@ -24,6 +24,9 @@ os.environ["webdriver.chrome.driver"] = chromedriver
 browser = webdriver.Chrome(chromedriver)
 MY_USER = raw_input("Input Username:")
 MY_PASSWORD = getpass("Input Password:")
+target_user = raw_input("Input Target Username:")
+
+number_to_follow = 100
 
 def logIn():
 
@@ -40,18 +43,16 @@ def logIn():
 	
 	time.sleep(1)
 
+	print "logged in successfully!"
+
 def sort():
-
-
 
 	followers = []
 	following = []
 
-	browser.get('https://www.instagram.com/%s/' % MY_USER)
+	browser.get('https://www.instagram.com/%s/' % target_user)
 	time.sleep(3)
 	browser.find_element_by_xpath('//*[@id="react-root"]/section/main/article/header/div[2]/ul/li[2]/a').click()
-
-	print "logged in successfully!"
 
 	print "Sorting Please Wait..."
 	time.sleep(3)
